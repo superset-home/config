@@ -1,0 +1,4 @@
+# Credentials and secrets
+.env
+.env.local
+*.secret
