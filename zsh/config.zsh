@@ -97,9 +97,3 @@ for script in "$ZSHRC_DIR"/scripts/*/index.zsh; do
   [ -f "$script" ] && source "$script"
 done
 
-# ==============================================================================
-# MACHINE-SPECIFIC CONFIGURATION
-# ==============================================================================
-
-# Source machine-specific config if it exists
-[ -f ~/.zshrc.local ] && source ~/.zshrc.local
