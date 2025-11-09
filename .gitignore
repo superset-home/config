@@ -1,0 +1,7 @@
+# Machine-specific configurations
+.zshrc.local
+
+# Credentials and secrets
+.env
+.env.local
+*.secret
