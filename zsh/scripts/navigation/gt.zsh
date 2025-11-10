@@ -119,6 +119,10 @@ function _nav_set_repo() {
 
     echo "Set target repository: $selected_repo"
 
+    # Navigate to the repository root
+    cd "$selected_repo"
+    echo "Navigated to: $(pwd)"
+
     return 0
 }
 
