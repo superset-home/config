@@ -8,18 +8,24 @@ function _nav_get_config_path() {
     echo "$HOME/.config/zsh/nav.conf"
 }
 
-# Read monorepo root from config, or use default
+# Read monorepo root with priority: Superset env var > config file > default
 function _nav_read_config() {
-    local config_file="$(_nav_get_config_path)"
-    local monorepo_root
+    # Priority 1: Superset workspace env var (when running in Superset terminal)
+    if [[ -n "$SUPERSET_WORKSPACE_PATH" ]]; then
+        echo "$SUPERSET_WORKSPACE_PATH"
+        return
+    fi
 
+    # Priority 2: Config file
+    local config_file="$(_nav_get_config_path)"
     if [[ -f "$config_file" ]]; then
         source "$config_file"
         echo "$MONOREPO_ROOT"
-    else
-        # Default fallback
-        echo "$HOME/code/monorepo"
+        return
     fi
+
+    # Priority 3: Default fallback
+    echo "$HOME/code/monorepo"
 }
 
 # Write new monorepo root to config
@@ -136,7 +142,15 @@ function nav() {
     # Handle --show flag to display current config
     if [[ "$1" == "--show" ]]; then
         local current_root="$(_nav_read_config)"
-        echo "Current target repository: $current_root"
+        local source_info
+        if [[ -n "$SUPERSET_WORKSPACE_PATH" ]]; then
+            source_info="from Superset workspace"
+        elif [[ -f "$(_nav_get_config_path)" ]]; then
+            source_info="from config"
+        else
+            source_info="default"
+        fi
+        echo "Current target repository: $current_root ($source_info)"
         return 0
     fi
     local search_term="$1"
