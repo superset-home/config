@@ -3,7 +3,7 @@
 # ==============================================================================
 
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="jatin"
+ZSH_THEME="satya"
 
 plugins=(
   vi-mode
